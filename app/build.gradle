@@ -1,0 +1,209 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.android.mvvm.kotlin"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2/\"")
+            buildConfigField("String", "API_KEY", "\"ABCXYZ123TEST\"")
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2/\"")
+            buildConfigField("String", "API_KEY", "\"ABCXYZ123TEST\"")
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    lintOptions {
+        lintConfig file("$project.rootDir/tools/lint-rules.xml")
+        htmlOutput file("$project.buildDir/outputs/lint/lint.html")
+        warningsAsErrors true
+        xmlReport false
+        htmlReport true
+        abortOnError false
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+// For SpotBugs to create 'spotbugsMain' gradle task
+sourceSets {
+    main {
+        java.srcDirs = []
+    }
+}
+
+kapt {
+    generateStubs = true
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // network
+    implementation "com.amitshekhar.android:rx2-android-networking:$rootProject.rx2FastAndroidNetworking"
+
+    // database
+    implementation "androidx.room:room-rxjava2:$rootProject.roomDatabaseVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomDatabaseVersion"
+
+    // image
+    implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+
+    // parser
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+
+    // debug database
+    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.debugDBVersion"
+
+    // dependency injection
+//    implementation "com.google.dagger:dagger:$rootProject.dagger2Version"
+//    implementation "com.google.dagger:dagger-android:2.12:$rootProject.dagger2Version"
+//    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
+//    kapt "com.google.dagger:dagger-android-processor::$rootProject.dagger2Version"
+//
+//    implementation 'com.google.dagger:dagger:2.11'
+//    kapt 'com.google.dagger:dagger-compiler:2.11'
+//    provided 'javax.annotation:jsr250-api:1.0'
+//    implementation "com.google.dagger:dagger-android-support:2.11"
+//    implementation "com.google.dagger:dagger:2.11"
+//    annotationProcessor "com.google.dagger:dagger-compiler:2.11"
+
+    //def latest_version = 2.31 // or latest version
+
+//    implementation "com.google.dagger:dagger:$daggerVer"
+//    implementation "com.google.dagger:dagger-android-support:$daggerVer"
+//    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+//    kapt "com.google.dagger:dagger-compiler:$daggerVer"
+//    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
+
+//    implementation "com.google.dagger:dagger:$latest_version"
+//    kapt  "com.google.dagger:dagger-compiler:$latest_version"
+//    implementation "com.google.dagger:dagger-android:$latest_version"
+//    kapt  "com.google.dagger:dagger-android-processor:$latest_version"
+//    implementation "com.google.dagger:dagger-android-support:$latest_version"
+//    kapt  "com.google.dagger:dagger-android-support:2.12"
+
+    implementation 'com.google.dagger:dagger-android:2.20'
+    implementation 'com.google.dagger:dagger-android-support:2.20' // if you use the support libraries
+    kapt 'com.google.dagger:dagger-android-processor:2.20'
+    kapt 'com.google.dagger:dagger-compiler:2.20'
+
+    // reactive
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjava2Version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.retrofitVersion"
+
+    // swipe view
+    implementation "com.mindorks:placeholderview:$rootProject.placeholderviewVersion"
+
+    //Image picker
+    implementation "com.opensooq.supernova:gligar:$rootProject.imagePickerVersion"
+
+    // logger
+    implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
+    // google play service
+    implementation "com.google.android.gms:play-services-maps:$rootProject.mapVersion"
+    implementation "com.google.android.gms:play-services-location:$rootProject.locationSeriveVersion"
+
+    // dependencies for local unit tests
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    testAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
+
+    testImplementation "androidx.test:core:$rootProject.testCoreVersion"
+
+    // UI Testing
+    androidTestImplementation "junit:junit:$rootProject.junitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    androidTestImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
+    androidTestImplementation "androidx.test:core:$rootProject.testCoreVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.testExtJuinVersion"
+    androidTestImplementation "com.android.support:support-annotations:$rootProject.supportAnnotationsVersion"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.supportTestVersion"
+    androidTestImplementation "com.android.support.test:rules:$rootProject.supportTestVersion"
+
+    // view model
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+   kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
+
+    // Import the BoM for the Firebase platform
+    implementation platform("com.google.firebase:firebase-bom:$rootProject.firebaseBomVersion")
+
+    // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation "com.google.firebase:firebase-messaging"
+    implementation "com.google.firebase:firebase-analytics"
+//    implementation "com.google.firebase:firebase-crashlytics"
+
+    //Multidex dependency
+    implementation "com.android.support:multidex:$rootProject.multidexVersion"
+    implementation "android.arch.work:work-runtime:$rootProject.archWorkVersion"
+
+    testImplementation "org.jacoco:org.jacoco.agent:0.8.3"
+    testImplementation "org.robolectric:robolectric:4.4"
+
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.0'
+    androidTestImplementation "android.arch.core:core-testing:1.0.0"
+
+    testImplementation "android.arch.core:core-testing:1.0.0"
+
+    def junit_jupiter_version = "5.3.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_jupiter_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
+
+    implementation 'com.android.databinding:compiler:3.1.4'
+}
