@@ -11,17 +11,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import ti.mp.androidarchitecturesample.productstore.presentation.util.ContentDescriptions
 
 @Composable
-fun LoadingDialog(isLoading :Boolean){
-    if(isLoading){
+fun LoadingDialog(isLoading: Boolean) {
+    if (isLoading) {
         Dialog(
             onDismissRequest = {},
-            properties = DialogProperties( dismissOnClickOutside = false)
-        ){
+            properties = DialogProperties(dismissOnClickOutside = false)
+        ) {
             Box(
                 modifier = Modifier
                     .width(200.dp)
@@ -29,8 +32,13 @@ fun LoadingDialog(isLoading :Boolean){
                     .clip(RoundedCornerShape(15.dp))
                     .background(Color.White),
                 contentAlignment = Alignment.Center
-            ){
-                CircularProgressIndicator( modifier = Modifier.padding(10.dp))
+            ) {
+                CircularProgressIndicator(modifier = Modifier
+                    .padding(10.dp)
+                    .semantics {
+                        this.contentDescription = ContentDescriptions.LOADING_INDICATOR
+                    }
+                )
             }
         }
     }
